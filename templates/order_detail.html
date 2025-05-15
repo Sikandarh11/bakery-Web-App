@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Details - Sugar Crush Bakery</title>
+    <style>
+        body {
+            background: #ffe6f5;
+            font-family: 'Quicksand', sans-serif;
+            text-align: center;
+            padding: 30px;
+        }
+        h1, h2, h3 {
+            color: hotpink;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            margin: 10px 0;
+            font-size: 18px;
+        }
+        .thank-you {
+            margin-top: 40px;
+            font-size: 24px;
+            color: deeppink;
+        }
+        .btn-home {
+            padding: 12px 25px;
+            background-color: hotpink;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 40px;  /* Adjust the top margin to position it lower */
+        }
+        .btn-home:hover {
+            background-color: deeppink;
+        }
+    </style>
+</head>
+<body>
+    <h1>Order Confirmed!</h1>
+    <h2>Customer: {{ customer_name }}</h2>
+    <h3>Address: {{ address }}</h3>
+    <h3>Total: ${{ total }}</h3>
+    <ul>
+        {% for item in cart %}
+        <li>{{ item.name }} - ${{ item.price }}</li>
+        {% endfor %}
+    </ul>
+    <div class="thank-you">Thank you for ordering from Sugar Crush Bakery! 🎉</div>
+
+    <!-- Button to go to the Home page -->
+    <a href="/" class="btn-home">Go to Home Page</a>
+</body>
+</html>

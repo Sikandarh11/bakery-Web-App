@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Customer Orders - Sugar Rush Bakery</title>
+    <style>
+        /* Style adjustments for displaying the order data in a neat format */
+        body {
+            background: linear-gradient(to right, #ffe6f0, #ffe6f5);
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            padding-top: 20px;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            background-color: hotpink;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            font-size: 18px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            margin: 10px;
+        }
+
+        .btn:hover {
+            background-color: deeppink;
+        }
+
+        .order-table {
+            margin-top: 30px;
+            width: 80%;
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+        }
+
+        .order-table th, .order-table td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+
+        .order-table th {
+            background-color: hotpink;
+            color: white;
+        }
+
+        /* Styling for the "Back to Dashboard" button */
+        .back-btn-container {
+            margin-top: 30px; /* Adds space above the button */
+        }
+
+        .back-btn-container .btn {
+            background-color: #f2b3d4; /* Soft color for back button */
+        }
+
+        .back-btn-container .btn:hover {
+            background-color: deeppink; /* Hover effect for the back button */
+        }
+    </style>
+</head>
+
+<body>
+
+  <h1>Customer Orders</h1>
+
+  <!-- Table displaying customer order details -->
+  <table class="order-table">
+    <thead>
+      <tr>
+        <th>Customer Name</th>
+        <th>Customer Email</th>
+        <th>Phone Number</th> <!-- Added Phone Number column -->
+        <th>Total Amount</th>
+        <th>Products Ordered</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for order in order_data %}
+      <tr>
+        <td>{{ order.customer_name }}</td>
+        <td>{{ order.customer_email }}</td>
+        <td>{{ order.customer_phone }}</td> <!-- Displaying Phone Number -->
+        <td>${{ order.total }}</td>
+        <td>
+          <ul>
+            {% for product in order.products %}
+            <li>{{ product.name }} ({{ product.quantity }} x ${{ product.price }})</li>
+            {% endfor %}
+          </ul>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- "Back to Dashboard" button aligned properly -->
+  <div class="back-btn-container">
+      <a href="/owner_dashboard" class="btn">Back to Dashboard</a>
+  </div>
+
+</body>
+</html>

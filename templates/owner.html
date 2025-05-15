@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sugar Rush Bakery - Owner Dashboard</title>
+  <style>
+    body {
+      background: linear-gradient(to right, #ffe6f0, #ffe6f5);
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+      padding-top: 20px;
+    }
+
+    .btn {
+      padding: 15px 30px;
+      background-color: hotpink;
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-size: 18px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      margin: 10px;
+    }
+
+    .btn:hover {
+      background-color: deeppink;
+    }
+
+    .home-btn {
+      background-color: hotpink;
+      color: white;
+      padding: 12px 25px;
+      border-radius: 30px;
+      font-size: 18px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      margin-top: 20px;
+    }
+
+    .home-btn:hover {
+      background-color: deeppink;
+    }
+
+    .action-btns {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .action-btns button {
+      padding: 6px 12px;
+      background-color: hotpink;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .action-btns button:hover {
+      background-color: deeppink;
+    }
+
+    /* Table Styling */
+    table {
+      margin-top: 30px;
+      width: 80%;
+      margin-left: auto;
+      margin-right: auto;
+      border-collapse: collapse;
+    }
+
+    table th, table td {
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #ddd;
+    }
+
+    table th {
+      background-color: hotpink;
+      color: white;
+    }
+
+    /* Search Bar */
+    .search-bar {
+      margin-top: 20px;
+    }
+
+    input[type="text"] {
+      padding: 8px;
+      width: 300px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      margin-right: 10px;
+    }
+
+    .search-bar button {
+      background-color: hotpink;
+      color: white;
+      padding: 8px 15px;
+      border-radius: 5px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .search-bar button:hover {
+      background-color: deeppink;
+    }
+
+    /* Content Container */
+    .content-container {
+      padding: 20px;
+      margin-top: 20px;
+    }
+
+    .header {
+      font-size: 30px;
+      color: hotpink;
+      margin-bottom: 20px;
+    }
+
+    /* Admin Info Button at Top Right */
+    .admin-info-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background-color: hotpink;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 16px;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .admin-info-btn:hover {
+      background-color: deeppink;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Admin Info Button (Top Right) -->
+  <a href="/admin_info" class="admin-info-btn">Add Admin Info</a>
+
+  <!-- Home Button -->
+  <a href="/" class="home-btn">Go to Home Page</a>
+
+  <div class="content-container">
+    <h1 class="header">Welcome, Owner!</h1>
+
+    <!-- Buttons for actions -->
+    <div style="text-align: center;">
+      <a href="/add_product" class="btn">Add New Product</a>
+      <a href="/owner_dashboard" class="btn">View All Products</a>
+      <a href="/view_customer_orders" class="btn" style="background-color: hotpink;">View Customer Orders</a>
+    </div>
+
+    <!-- Search Bar for Product -->
+    <div class="search-bar">
+      <input type="text" id="searchProduct" placeholder="Search for a product...">
+      <button class="btn" onclick="searchProduct()">Search</button>
+    </div>
+
+    <!-- Product Table -->
+    <table id="productTable">
+      <thead>
+        <tr>
+          <th>Product Name</th>
+          <th>Price</th>
+          <th>Quantity</th> <!-- Added Quantity Column -->
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for product in products %}
+        <tr>
+          <td>{{ product.name }}</td>
+          <td>${{ product.price }}</td>
+          <td>{{ product.quantity }}</td> <!-- Display Product Quantity -->
+          <td class="action-btns">
+            <button onclick="updateProduct({{ product.id }})">Update</button>
+            <button onclick="deleteProduct({{ product.id }})" class="btn">Delete</button>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+  </div>
+
+  <script>
+    // Function to handle product deletion
+    function deleteProduct(productId) {
+      fetch(`/delete_product/${productId}`, {
+        method: 'DELETE',
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert("Product deleted successfully!");
+          location.reload();  // Reload the page to reflect the change
+        } else {
+          alert("Error deleting product.");
+        }
+      })
+      .catch(error => alert("An error occurred: " + error));
+    }
+
+    // Function to handle product update (Redirect to update page)
+    function updateProduct(productId) {
+      window.location.href = `/update_product/${productId}`;
+    }
+
+    // Function to handle product search
+    function searchProduct() {
+      const searchQuery = document.getElementById('searchProduct').value;
+      const rows = document.querySelectorAll('#productTable tbody tr');
+
+      rows.forEach(row => {
+        const productName = row.querySelector('td').textContent.toLowerCase();
+        if (productName.includes(searchQuery.toLowerCase())) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+  </script>
+
+</body>
+</html>

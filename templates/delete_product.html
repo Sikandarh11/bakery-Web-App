@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete Product - Sugar Rush Bakery</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            padding: 50px;
+            background-color: #f9f3f3;
+        }
+        h1 {
+            color: hotpink;
+        }
+        .btn {
+            background-color: hotpink;
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 18px;
+            margin: 10px;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: deeppink;
+        }
+    </style>
+</head>
+<body>
+    <h1>Are you sure you want to delete the product?</h1>
+    <p>The product <strong>{{ product.name }}</strong> will be permanently deleted.</p>
+
+    <!-- Button to trigger deletion -->
+    <button class="btn" onclick="deleteProduct({{ product.id }})">Delete Product</button>
+
+    <!-- Back to Dashboard -->
+    <a href="/owner_dashboard" class="btn">Back to Dashboard</a>
+
+    <script>
+        // Function to handle product deletion via JavaScript
+        function deleteProduct(productId) {
+            fetch(`/product_delete/${productId}`, {
+                method: 'DELETE',
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert(data.message);  // Show success message
+                    window.location.href = "/owner_dashboard";  // Redirect back to the dashboard
+                } else {
+                    alert(data.message);  // Show error message
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred while deleting the product.');
+            });
+        }
+    </script>
+
+</body>
+</html>
