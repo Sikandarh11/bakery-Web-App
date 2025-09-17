@@ -1,6 +1,6 @@
-# BakeryBPP
+# bakery-Web-App
 
-BakeryBPP is a web application designed to help bakery owners efficiently manage bakery operations, products, and sales. Whether you're running a small local bakery or a larger chain, this app streamlines tasks such as inventory management, order processing, and customer engagement.
+bakery-Web-App is a web application designed to help bakery owners efficiently manage bakery operations, products, and sales. Whether you're running a small local bakery or a larger chain, this app streamlines tasks such as inventory management, order processing, and customer engagement.
 
 ## Features
 
@@ -24,8 +24,8 @@ BakeryBPP is a web application designed to help bakery owners efficiently manage
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/Sikandarh11/bakerybpp.git
-   cd bakerybpp
+   git clone https://github.com/Sikandarh11/bakery-Web-App.git
+   cd bakery-Web-App
    ```
 
 2. **Install dependencies:**
